@@ -14,6 +14,7 @@ public class SynchronizedMain {
 			new Thread(myTest.new Inner(0), "A").start();
 			new Thread(myTest.new Inner(1), "B").start();
 			new Thread(myTest.new Inner(2), "C").start();
+			//test  commit
 		} catch (Exception e) {
 			e.printStackTrace();
 
