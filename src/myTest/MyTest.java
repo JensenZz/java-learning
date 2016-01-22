@@ -21,7 +21,7 @@ public class MyTest {
 	//自定义锁  用来所代码块
 	private byte[] lock = new byte[0];
 
-	public class Inner implements Runnable {
+	 public class Inner implements Runnable {
 
 		private int pid = 0;
 
