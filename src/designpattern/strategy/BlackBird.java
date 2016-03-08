@@ -1,5 +1,7 @@
 package designpattern.strategy;
 
+import java.util.HashMap;
+
 /**
  * Created by JensenZz on 16/3/2.
  * Project name is mywork
@@ -21,4 +23,5 @@ public class BlackBird extends Bird {
 		this.performFly();
 		System.out.println(plume);
 	}
+
 }
