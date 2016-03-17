@@ -18,7 +18,7 @@ public class MyTest {
 	//下面是  3线程循环打印ABC
 	private int count = 0;
 
-	//自定义锁  用来所代码块
+	//自定义锁  用来锁代码块
 	private byte[] lock = new byte[0];
 
 	 public class Inner implements Runnable {

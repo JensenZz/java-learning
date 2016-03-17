@@ -10,6 +10,10 @@ import java.lang.reflect.Modifier;
  */
 public class ReflectMain {
 
+	public static int aVoid(){
+	return 1;
+	}
+
 	public static void main(String[] args) {
 		try {
 			//研究反射机制
