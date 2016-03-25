@@ -1,6 +1,4 @@
-package designpattern.strategy;
-
-import java.util.HashMap;
+package designpattern.Strategy;
 
 /**
  * Created by JensenZz on 16/3/2.

@@ -1,4 +1,4 @@
-package designpattern.strategy;
+package designpattern.Strategy;
 
 /**
  * Created by JensenZz on 16/3/2.
