@@ -1,3 +1,5 @@
+package java7;
+
 import myTest.MyServerTest;
 
 /**

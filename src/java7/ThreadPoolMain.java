@@ -1,3 +1,5 @@
+package java7;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,5 +37,9 @@ public class ThreadPoolMain {
 		pool1.execute(t5);
 		//关闭线程池
 		pool1.shutdown();
+
+
+
+
 	}
 }

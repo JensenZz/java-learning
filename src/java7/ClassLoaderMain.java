@@ -1,3 +1,5 @@
+package java7;
+
 import java.util.HashMap;
 import java.util.Map;
 
