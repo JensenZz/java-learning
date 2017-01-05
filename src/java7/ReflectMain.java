@@ -16,6 +16,8 @@ import java.util.HashMap;
  */
 public class ReflectMain {
 
+
+
 	public static int aVoid(){
 	return 1;
 	}
