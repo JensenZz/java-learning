@@ -1,5 +1,7 @@
 package java7;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,16 +32,17 @@ public class Main {
     static Set<Long> dups = new HashSet<Long>();
 
     public static void main(String[] args) {
-//        while (true) {
-//            long value = (long) (Math.random() * 1000000000l);
-//            if (dups.add(value)) {
-//                System.out.println(value);
-//            } else {
-//                System.out.println("Dup " + value);
-//                break;
-//            }
-//        }
-        System.out.println(aVoid());
+        File file = new File("/Users/JensenZz/Desktop/民族代码.xlsx");
+        ArrayList<ArrayList<Object>> result = ExcelUtil.readExcel(file);
+        for (int i = 0; i < result.size(); i++) {
+            for (int j = 0; j < result.get(i).size(); j++) {
+                System.out.println(i + "行" + j + "列" + result.get(i).get(j).toString());
+
+            }
+        }
+        for (int i = 0; i < result.size(); i++) {
+            System.out.println("insert into general_config values(null,'PGW','nationality','" + result.get(i).get(0).toString() + "','" + result.get(i).get(1).toString().trim()+"','1','民族列表',now(),now());");
+        }
 
     }
 
