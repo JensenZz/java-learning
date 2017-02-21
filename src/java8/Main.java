@@ -14,15 +14,15 @@ import java.util.Arrays;
  */
 
 public class Main {
-    public static void main(String[] args) {
-        Arrays.asList( "a", "b", "d" ).forEach( (String e ) -> System.out.println( e ) );
-        Arrays.asList( "a", "b", "d" ).sort( ( e1, e2 ) -> e1.compareTo( e2 ) );
-
-        Defaulable defaulable = DefaulableFactory.create( DefaultableImpl::new );
-        System.out.println( defaulable.notRequired() );
-
-        defaulable = DefaulableFactory.create( OverridableImpl::new );
-        System.out.println( defaulable.notRequired() );
-
-    }
+//    public static void main(String[] args) {
+//        Arrays.asList( "a", "b", "d" ).forEach( (String e ) -> System.out.println( e ) );
+//        Arrays.asList( "a", "b", "d" ).sort( ( e1, e2 ) -> e1.compareTo( e2 ) );
+//
+//        Defaulable defaulable = DefaulableFactory.create( DefaultableImpl::new );
+//        System.out.println( defaulable.notRequired() );
+//
+//        defaulable = DefaulableFactory.create( OverridableImpl::new );
+//        System.out.println( defaulable.notRequired() );
+//
+//    }
 }

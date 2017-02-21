@@ -1,7 +1,5 @@
 package java8;
 
-import java.util.function.Supplier;
-
 /**
  * <p>Title: 类的名称</p>
  * <p>Description: 类的实现描述<p>
@@ -15,7 +13,7 @@ import java.util.function.Supplier;
 
 public interface DefaulableFactory {
     // Interfaces now allow static methods
-    static Defaulable create(Supplier<Defaulable> supplier) {
-        return supplier.get();
-    }
+//    static Defaulable create(Supplier<Defaulable> supplier) {
+//        return supplier.get();
+//    }
 }
