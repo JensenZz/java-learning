@@ -1,49 +1,47 @@
 package java7;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Main {
 
-    //main  run方法
-
-    //    public static void main(String[] args) {
-////        String url = "";
-////        Pattern f = Pattern.compile("href=\"([^\"]*)\"");
-////        Matcher m = f.matcher(url);
-////        while (m.find()) {
-////            System.out.println(m.group(0));
-////        }
-//        for (int i = 0; i < 10; i++) {
-//
-////            long a = 0;
-//           long a = (long) (Math.random() * 100000l);
-//            System.out.println(a);
-//        }
-////        System.out.println((long)(Math.random()*1000000l));
-//
-//    }
-    public static int aVoid() {
-        return 1;
-    }
-
-    static Set<Long> dups = new HashSet<Long>();
-
-    public static void main(String[] args) {
-        File file = new File("/Users/JensenZz/Desktop/民族代码.xlsx");
-        ArrayList<ArrayList<Object>> result = ExcelUtil.readExcel(file);
-        for (int i = 0; i < result.size(); i++) {
-            for (int j = 0; j < result.get(i).size(); j++) {
-                System.out.println(i + "行" + j + "列" + result.get(i).get(j).toString());
-
+    public static Set<String> UrlDistinct(List<String> strings) {
+        Set<String> UrlSet = new HashSet<String>();
+        for (String string : strings) {
+            if (null != string && !string.isEmpty()) {
+                if (!string.contains("?")) {
+                    UrlSet.add(string);
+                } else {
+                    String[] s = string.split("\\?");
+                    if (null != s && null != s[0]) {
+                        UrlSet.add(s[0]);
+                    }
+                }
             }
         }
-        for (int i = 0; i < result.size(); i++) {
-            System.out.println("insert into general_config values(null,'PGW','nationality','" + result.get(i).get(0).toString() + "','" + result.get(i).get(1).toString().trim()+"','1','民族列表',now(),now());");
-        }
+        return UrlSet;
+    }
 
+    public static void main(String[] args) {
+        List<String> strings = new ArrayList<String>();
+        String url1 = "";
+        String url2 = "https://www.baidu.com";
+        String url3 = "https://item.taobao.com/item.htm?spm=a21bo.50862.201867-rmds-1.1.xQVq98&scm=1007.12807.73594.100200300000004&id=44912154257&pvid=0fb65e13-e110-4bb1-a667-dc234d2cf746";
+        String url4 = "https://mensway.taobao.com/shop/view_shop.htm?mytmenu=mdianpu&user_number_id=63118522&ali_trackid=17_3ab1209443378f1c7327af6b3077c137&spm=a21bo.50862.201861.1.xQVq98";
+        String url5 = "https://daigou.taobao.com/item.htm?spm=5418.7905509.2.1.84Riyc&id=437542";
+        String url6 = "https://item.taobao.com/item.htm?id=44912154257&pvid=0fb65e13-e110-4bb1-a667-dc234d2cf746";
+        strings.add(url1);
+        strings.add(url2);
+        strings.add(url3);
+        strings.add(url4);
+        strings.add(url5);
+        strings.add(url6);
+        Set<String> stringSet = UrlDistinct(strings);
+        for (String s : stringSet) {
+            System.out.println(s);
+        }
     }
 
 }

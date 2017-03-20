@@ -48,6 +48,7 @@ public class MyTest {
         }
     }
 
+
     //读配置文件
 
     private static Properties props = new Properties();
