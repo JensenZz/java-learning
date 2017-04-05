@@ -13,7 +13,8 @@ package java7;
 
 public class Test {
     public static void main(String[] args) {
-        int arg[] = new int[]{3, 5, 1, 2, 8, 2, 7, 0,11};
+        int arg[] = new int[]{3, 5, 1, 2, 8, 2, 7, 0};
+//        asdasd
         Test a = new Test();
         System.out.println("排序前样子");
         for (int i : arg) {
@@ -21,7 +22,7 @@ public class Test {
         }
         System.out.println("");
         a.testA(arg);
-
+//devdddd
         System.out.println("排序后");
         for (int i : arg) {
             System.out.print(i + ",");
