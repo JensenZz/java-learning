@@ -13,7 +13,7 @@ package java7;
 
 public class Test {
     public static void main(String[] args) {
-        int arg[] = new int[]{3, 5, 1, 2, 8, 2, 7, 0};
+        int arg[] = new int[]{3, 5, 1, 2, 8, 2, 7, 0,11};
         Test a = new Test();
         System.out.println("排序前样子");
         for (int i : arg) {
