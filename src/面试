@@ -26,7 +26,8 @@ dead(终止)
 2>使用ThreadLocal 当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本
   原理其实内置一个map ,Map中元素的键为线程对象，而值对应线程的变量副本，注意在线程池用到时，因为线程池里的线程是重复利用的，所以当线程走完时要手动更新掉。
 
-4 解释一下IO  NIO  BIO
+4 解释一下IO  NIO  BIO 解释同步异步  阻塞非阻塞
+
 
 
 5 dubbo怎么实现调用的    dubbo的调用负载均衡怎么实现
@@ -38,12 +39,14 @@ dead(终止)
    然后上面消费者调用invoker.invoke()方法时会根据协议执行相同URL远端export（）传入的invoker对象的invoker方法，对于提供方收到一个请求就找到对应的exporter实例，找到对应的abstractProxyInvoker实例，从而调用真正的方法。
 2>负载均衡如上面在cluster层做的，也就是consumer调用服务时候做的，默认的策略是随机的，也就是根据你设置的权重来分配请求或者说是分配所需要的invoker，还有轮询策略等等
 
-6 为什么用redis不用memacache   redis好在哪里    redis你都会存些什么
+6 为什么用redis不用memacache   redis好在哪里    redis你都会存些什么  假如redis的key失效，大量高并发请求到数据库，压力变大怎么办？
 1>redis支持的数据类型多 String List Set Hash sortSet  支持持久化  支持事务  存取速度比memacache快
 2>存取速度快  直接存到内存  有丰富的特性 设置过期时间 数据过期策略保存热点数据的是volatile-lru()
 3>redis的持久化依靠 RDB内存快照（在指定时间点内fork出一条进程生成数据集的时间点快照，适合灾难恢复，因为fork进程设置频率不能太高）以及AOF（日志文件：只追加写的日志文件，类似于mysql的binlog，记录有效的写操作记录，日志到达一定是会fork一条进程重写文件，一般这个大小是上次的两倍），两个都启用的时候，服务重启优先AOF
 4>RDB利于数据备份，而AOF更完整，同步有设置的策略默认每秒一次，RDB问题更少，AOF日志文件也容易读懂，RDB相对速度更快一点，各有优缺点，愿意忽略几分钟的数据用RDB。
 5>RDB基本是新写一个文件替换旧文件，AOF重写则是子进程新建文件copy旧文件，父进程一边把新加的操作保存到内存缓存集一遍在原文件追加，子进程操作完，父进程把缓存追加到新文件，删除旧文件。
+6>面对这种情况，可以在常规的缓存更新时加锁，这样只有一个能够请求去DB去查询或者更新，其他返回等待或者反面，做好读完数据库就存redis，如果redis大面积失效，数据库层真的顶不住压力，分业务，做好预案，redis做好slave服务，
+做好非核心服务降级的准备，指定网址不能访问，数据库只能查，api调用延迟代用丢到消息中间件等。
 
 7 讲一个你自己实现的能表现你能力的例子
 
@@ -58,8 +61,17 @@ dead(终止)
 9 为什么要用dubbo+redis这个架构    你觉得怎么优化
 
 10 我简历上写我研究过spring启动   他就问了一下
+1>就xml配置的bean注入吧，源码里面大致的过程是先调用classResourcePath读取对应的Xml，然后new一个BeanFactory，xml注入的是新建一个defaultListableBeanFactory，然后
+new一个XmlDefinitionReader，入参是刚刚的BeanFactory，然后调用reader.loadBeanDefinition（classResourcePath），完成注入
+2>spring声明式事务主要是利用AOP的思想通过代理类插入事务，提交或者回滚事务。而编程式事务主要是基于PlatformTransactionManager来管理事务，前面只能到方法级别，后面可以到代码块级别，
+实现机制主要是在beginTranscation阶段，spring把与数据库链接的connection对象的autoCommit设置为false，然后在endTranscation阶段做提交回滚操作
+其中与数据库的Connection通过ThreadLocal对不同线程提供不同副本，线程之间是不影响的
+3>对于声明式事务要小心方法要public的，然后新建一个方法自己掉自己时是不生效的，主要是因为声明式事务基于aop的，然后aop有两个实现方式，一个是java动态代理，一个是cjlib，后者比前者强，spring抽象了这些，去掉了cjlib能够获取增强子类，
+导致子类只能调方法而不识别标签效果，解决办法是让当前调用子方法时用代理类调用，或者用application.getbean来get当前bean然后用它调用。
+4>默认对runTimeException回滚对其他不会滚，可以改rollbackFor=Exception.class对所有回滚，也可以rollbackFor=runTimeException.class都不回滚
 
 11  如果数据库宕机了怎么办
+做备库，切到备库上
 
 12  怎么做到容灾的
 
@@ -71,6 +83,7 @@ dead(终止)
 14 如何优化一个很耗事的服务  这个服务里面既有你调用别人的 也有别人调用你的
 
 15 线上出现大面积错误时怎么办
+切流量，如果服务器压力大的话做好预案  服务降级。
 
 16 aop怎么理解
 
@@ -83,7 +96,7 @@ jvm层有contentionList emptyList  oneDeck  Owner  !Owner    需要竞争锁的�
 
 19 线程池相关问题
 1>要避免死锁 例如工作线程在等待线程A执行结果，但是线程A仍然在队列中等待其他线程释放资源，就造成死锁，不要把这种线程丢到线程池内
-2>系统资源不足 创建太多线错 合理设置线程池大小
+2>系统资源不足 创建太多线程 合理设置线程池大小
 3>尽量用java自带的线程池
 4>尽量不要造成线程泄露，某些线程出现错误但是错误未被捕捉，这样线程池就废弃掉了这条线程，太多了线程池将不可用，长时间的有可能造成阻塞的线程设置超时时间
 5>避免任务过载
