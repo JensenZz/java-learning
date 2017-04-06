@@ -20,7 +20,7 @@ public class Demo {
         try {
             FileWriter writer = new FileWriter("/Users/JensenZz/Desktop/demo.txt", true);
             for (int i = 1; i <= 1000; i++) {
-                if (i % 5 == 0) {
+                if (i % 10 == 0) {
                     writer.write(i + "\n");
                 }
             }
